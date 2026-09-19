@@ -1,6 +1,6 @@
-# SashaEdit distribution
+# Zed Custom distribution
 
-Unofficial personal build of Zed; not affiliated with its upstream developer.
+Unofficial build of Zed; not affiliated with its upstream developer.
 
 ## Branches and feature PRs
 
@@ -23,11 +23,11 @@ The release source archive includes the exact Git tree and recursively initializ
 After publication the separate `sasha00123/homebrew-tap` workflow discovers releases and opens a cask update PR. It uses its own repository token, so no cross-repository PAT is needed. Once the cask PR is merged:
 
 ```sh
-brew install --cask sasha00123/tap/sasha-edit
-brew upgrade --cask sasha-edit
+brew install --cask sasha00123/tap/zed-custom
+brew upgrade --cask zed-custom
 ```
 
-SashaEdit uses system Git; the cask installs the Homebrew `git` formula. For a manual ZIP installation, install Git first and ensure it is available on your PATH.
+Zed Custom uses system Git; the cask installs the Homebrew `git` formula. For a manual ZIP installation, install Git first and ensure it is available on your PATH.
 
 The first cask appears only after a real published release; no placeholder versions or hashes are shipped. For local builds on a Mac with full Xcode, Rust and Homebrew:
 
@@ -38,9 +38,9 @@ bash distribution/build-macos.sh 2026.9.19
 
 ## Identity and updates
 
-- App: `SashaEdit.app`
-- Bundle ID: `io.sasha00123.SashaEdit`
-- URL scheme: `sasha-edit`
+- App: `Zed Custom.app`
+- Bundle ID: `io.sasha00123.ZedCustom`
+- URL scheme: `zed-custom`
 - Separate user data; no automatic migration or deletion of official-app settings.
 - Unique geometric icon, generated from source by `icon.swift`.
 - Upstream self-updating is disabled at compile time/channel configuration; update with Homebrew or GitHub Releases.
@@ -56,4 +56,4 @@ Current bundles use ad-hoc signatures, **not** a trusted Developer ID signature 
 
 Primary application license: GPL-3.0-or-later. Keep all original copyright/license files. Reusable components retain their own licenses (Zed includes Apache-2.0; WarpUI uses MIT). Every binary must remain associated with publicly accessible corresponding source including modifications and build scripts. License and source notices are embedded in the bundle.
 
-Sources: [Zed software overview](https://zed.dev/software-overview), [Zed brand](https://zed.dev/brand), [Warp FAQ](https://github.com/warpdotdev/warp/blob/master/FAQ.md), repository LICENSE files. The source licenses do not provide permission to imply upstream endorsement. The application name, ID, protocol, Dock icon and release labels use the personal identity; upstream names in attribution and feature documentation describe origin. This is not a trademark clearance or a promise of upstream cloud support.
+Sources: [Zed software overview](https://zed.dev/software-overview), [Zed brand](https://zed.dev/brand), [Warp FAQ](https://github.com/warpdotdev/warp/blob/master/FAQ.md), repository LICENSE files. The source licenses do not provide permission to imply upstream endorsement. The application names include “Custom”; releases, package descriptions and app metadata explicitly say “unofficial build”. The IDs, protocols and source-drawn Dock icons distinguish these builds from official apps; upstream names in attribution and feature documentation describe origin. This is not a trademark clearance or a promise of upstream cloud support.

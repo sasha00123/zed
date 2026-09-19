@@ -1,7 +1,7 @@
 {
-  "app_name": "SashaEdit",
-  "cask": "sasha-edit",
-  "bundle_id": "io.sasha00123.SashaEdit",
+  "app_name": "Zed Custom",
+  "cask": "zed-custom",
+  "bundle_id": "io.sasha00123.ZedCustom",
   "upstream": "zed-industries/zed",
   "upstream_branch": "main",
   "executable": "zed",

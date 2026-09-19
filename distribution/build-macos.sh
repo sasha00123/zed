@@ -5,7 +5,7 @@ version="$1"
 arch=$(uname -m)
 target=$(rustc -vV | sed -n 's/^host: //p')
 export ZED_BUNDLE=true
-export ZED_UPDATE_EXPLANATION='SashaEdit updates are provided by sasha00123/tap/sasha-edit or GitHub Releases.'
+export ZED_UPDATE_EXPLANATION='Zed Custom updates are provided by sasha00123/tap/zed-custom or GitHub Releases.'
 export ZED_RELEASE_CHANNEL=dev
 export ZED_COMMIT_SHA
 ZED_COMMIT_SHA=$(git rev-parse HEAD)

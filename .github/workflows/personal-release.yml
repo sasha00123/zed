@@ -70,5 +70,5 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           gh release create "personal-v$VERSION" --repo "$GH_REPO" \
-            --target "$SOURCE_COMMIT" --draft --title "SashaEdit $VERSION" \
+            --target "$SOURCE_COMMIT" --draft --title "Zed Custom $VERSION" \
             --notes-file dist/RELEASE_NOTES.md dist/*.zip dist/*-source.tar.gz dist/SHA256SUMS dist/homebrew.json
