@@ -76,7 +76,7 @@ def package(app, version, arch):
         actual = plistlib.load(stream)
     assert actual["CFBundleIdentifier"] == CONFIG["bundle_id"]
     assert actual["CFBundleExecutable"] == CONFIG["executable"]
-    run("lipo", "-verify_arch", arch, str(target / "Contents/MacOS" / CONFIG["executable"]))
+    run("lipo", str(target / "Contents/MacOS" / CONFIG["executable"]), "-verify_arch", arch)
     output = ROOT / "dist"
     output.mkdir(exist_ok=True)
     asset = f'{CONFIG["cask"]}-{version}-macos-{arch}.zip'
