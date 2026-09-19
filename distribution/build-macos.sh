@@ -2,6 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 version="$1"
+export TERM=xterm-256color
 arch=$(uname -m)
 target=$(rustc -vV | sed -n 's/^host: //p')
 export ZED_BUNDLE=true

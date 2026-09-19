@@ -5,14 +5,16 @@ mod reliability;
 mod watcher_debug;
 mod zed;
 
-// Ensure the binary name stays in sync with APP_NAME so that the paths used
-// at runtime (data dir, config dir, etc.) match what the binary is called.
+// The bundled CLI locates Contents/MacOS/zed. Keep that internal executable
+// name while requiring a separate namespace for this fork's user data.
 const _: () = assert!(
     paths::APP_NAME_LOWERCASE
         .as_bytes()
-        .eq_ignore_ascii_case(env!("CARGO_BIN_NAME").as_bytes()),
-    "paths::APP_NAME_LOWERCASE must match the binary name. \
-     Forks: update APP_NAME in crates/paths/src/paths.rs when renaming the binary.",
+        .eq_ignore_ascii_case(b"zedcustom")
+        && env!("CARGO_BIN_NAME")
+            .as_bytes()
+            .eq_ignore_ascii_case(b"zed"),
+    "Custom builds require isolated ZedCustom paths and the zed executable expected by the CLI.",
 );
 
 use agent_ui::AgentPanel;
