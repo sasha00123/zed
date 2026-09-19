@@ -3,7 +3,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 : "${GH_REPO:?}"
 read -r upstream branch < <(python3 -c 'import json; c=json.load(open("distribution/config.json")); print(c["upstream"], c["upstream_branch"])')
-[[ "$GH_REPO" == "sasha00123/${upstream##*/}" ]]
+if [[ "$GH_REPO" != "sasha00123/${upstream##*/}" ]]; then
+  echo "Unexpected fork repository" >&2
+  exit 1
+fi
 git fetch --no-tags origin main personal/main
 git fetch --no-tags "https://github.com/$upstream.git" "$branch"
 sha=$(git rev-parse FETCH_HEAD)

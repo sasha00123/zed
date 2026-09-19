@@ -28,6 +28,10 @@ def assemble(version, commit):
             if hashlib.file_digest(stream, "sha256").hexdigest() != manifest["sha256"]:
                 raise ValueError("artifact checksum mismatch")
         artifacts.append({"architecture": arch, "asset": name, "sha256": manifest["sha256"]})
+    actual_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    if actual_commit != commit:
+        raise ValueError("source checkout does not match binary commit")
+    subprocess.run(["git", "diff", "--exit-code", "HEAD"], cwd=ROOT, check=True)
     source = dist / f'{config["cask"]}-{version}-source.tar.gz'
     tracked = subprocess.check_output(["git", "ls-files", "-z"], cwd=ROOT).decode().split("\0")
     # Archive the checkout actually built, including initialized submodule sources.
