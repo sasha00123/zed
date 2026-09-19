@@ -27,6 +27,8 @@ brew install --cask sasha00123/tap/sasha-edit
 brew upgrade --cask sasha-edit
 ```
 
+SashaEdit uses system Git; the cask installs the Homebrew `git` formula. For a manual ZIP installation, install Git first and ensure it is available on your PATH.
+
 The first cask appears only after a real published release; no placeholder versions or hashes are shipped. For local builds on a Mac with full Xcode, Rust and Homebrew:
 
 ```sh
