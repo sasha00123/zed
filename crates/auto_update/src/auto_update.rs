@@ -519,6 +519,10 @@ impl AutoUpdater {
     }
 
     pub fn poll(&mut self, check_type: UpdateCheckType, cx: &mut Context<Self>) {
+        // A compiled-in package-manager policy must also cover direct polling callers.
+        if option_env!("ZED_UPDATE_EXPLANATION").is_some() {
+            return;
+        }
         if check_type.is_manual() {
             self.dismissed_status = None;
         }
