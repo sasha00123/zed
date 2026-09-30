@@ -155,6 +155,12 @@ impl OpenRequest {
         }
 
         for url in request.urls {
+            // Keep the fork's registered scheme separate while reusing upstream link parsing.
+            let url = if let Some(path) = url.strip_prefix("zed-custom://") {
+                format!("zed://{path}")
+            } else {
+                url
+            };
             if let Some(server_name) = url.strip_prefix("zed-cli://") {
                 this.kind = Some(OpenRequestKind::CliConnection(connect_to_cli(server_name)?));
             } else if let Some(action_index) = url.strip_prefix("zed-dock-action://") {
@@ -1611,7 +1617,14 @@ mod tests {
     fn test_parse_focus_app_url(cx: &mut TestAppContext) {
         let _app_state = init_test(cx);
 
-        for url in ["zed://", "zed://open", "zed://open/"] {
+        for url in [
+            "zed://",
+            "zed://open",
+            "zed://open/",
+            "zed-custom://",
+            "zed-custom://open",
+            "zed-custom://open/",
+        ] {
             let request = cx.update(|cx| {
                 OpenRequest::parse(
                     RawOpenRequest {
