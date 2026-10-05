@@ -3608,6 +3608,17 @@ impl GitPanel {
         window: &mut Window,
         cx: &mut Context<Self>,
     ) {
+        let repository = match self
+            .context_menu
+            .as_ref()
+            .and_then(|menu| menu.target_entry_index)
+        {
+            Some(index) => self.repository_for_entry_index(index, cx),
+            None => self.active_repository.clone(),
+        };
+        let Some(repository) = repository else {
+            return;
+        };
         let entries = self
             .directory_context_descendants()
             .map(Self::staged_tracked_entries)
@@ -3616,7 +3627,7 @@ impl GitPanel {
         match entries.len() {
             0 => return,
             1 => {
-                return self.revert_entries(entries, false, window, cx);
+                return self.revert_entries(vec![(repository, entries)], false, window, cx);
             }
             _ => {}
         }
@@ -3645,7 +3656,7 @@ impl GitPanel {
         cx.spawn_in(window, async move |this, cx| {
             if let Ok(RestoreCancel::RestoreTrackedFiles) = prompt.await {
                 this.update_in(cx, |this, window, cx| {
-                    this.perform_checkout(entries, window, cx);
+                    this.perform_checkout_in_repository(repository, entries, window, cx);
                 })
                 .ok();
             }
@@ -3667,7 +3678,7 @@ impl GitPanel {
         match to_delete.len() {
             0 => return,
             1 => {
-                return self.revert_entries(to_delete, false, window, cx);
+                return self.revert_entries(vec![(active_repo, to_delete)], false, window, cx);
             }
             _ => {}
         };
@@ -3713,7 +3724,9 @@ impl GitPanel {
                 .into_iter()
                 .filter(|entry| !entry.status.staging().is_fully_unstaged())
                 .collect();
-            this.update(cx, |this, cx| this.change_file_stage(false, to_unstage, cx))?;
+            this.update(cx, |this, cx| {
+                this.change_file_stage_for_repository(active_repo, false, to_unstage, cx)
+            })?;
 
             let results = futures::future::join_all(tasks).await;
             let errors: Vec<anyhow::Error> = results.into_iter().filter_map(|r| r.err()).collect();
