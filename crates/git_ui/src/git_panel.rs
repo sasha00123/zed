@@ -3236,7 +3236,7 @@ impl GitPanel {
     fn selected_ignorable_path(&self) -> Option<(RepositoryId, RepoPath, bool)> {
         let selected_index = self.selected_entry?;
         let repository_id = self.repository_id_for_entry_index(selected_index)?;
-        let list_entry = self.entries.get(selected_index)?;
+        let list_entry = self.get_selected_entry()?;
 
         if let Some(directory) = list_entry.directory_entry() {
             self.directory_descendants(selected_index)?
@@ -3515,18 +3515,6 @@ impl GitPanel {
 
             Some(())
         });
-    }
-
-    fn perform_checkout(
-        &mut self,
-        entries: Vec<GitStatusEntry>,
-        window: &mut Window,
-        cx: &mut Context<Self>,
-    ) {
-        let Some(active_repository) = self.active_repository.clone() else {
-            return;
-        };
-        self.perform_checkout_in_repository(active_repository, entries, window, cx);
     }
 
     fn perform_checkout_in_repository(
@@ -3972,6 +3960,7 @@ impl GitPanel {
         self.change_file_stage_for_repository(repository, stage, repo_paths, cx);
     }
 
+    #[cfg(test)]
     fn change_file_stage(
         &mut self,
         stage: bool,
